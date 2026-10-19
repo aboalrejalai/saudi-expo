@@ -1,0 +1,11 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "notGrouped": "bottom",
+  "groupings": [
+    {
+      "title": "Saudi Expo",
+      "description": "Expo apps under the Saudi Soft identity — native iPhone/iPad (NativeTabs, Liquid Glass, SF Symbols, SwiftUI), shadcn on web, Android later, Arabic RTL.",
+      "skills": ["saudi-expo"]
+    }
+  ]
+}

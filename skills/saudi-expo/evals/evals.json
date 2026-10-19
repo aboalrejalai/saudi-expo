@@ -1,0 +1,120 @@
+{
+  "skill_name": "saudi-expo",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Create a new Expo app for a school with Saudi Soft identity: three tabs (Home, Classes, Search), Arabic RTL by default, iPad sidebar, and the Soft sidebar on web.",
+      "expected_output": "SDK 58 app with NativeTabs from expo-router/native-tabs, a Stack per tab, tokens.ts copied, expo-localization supportedLocales with ar, IBM Plex loaded, _layout.web.tsx files with the Soft sidebar and Slot, core pieces, check-shared passing.",
+      "files": [],
+      "expectations": [
+        "Imports NativeTabs from 'expo-router/native-tabs' (not unstable-native-tabs) and uses NativeTabs.Trigger.Icon with sf and md props",
+        "Sets sidebarAdaptable and tintColor from tokens; does not set backgroundColor or blurEffect on the tab bar",
+        "Each tab folder has its own Stack layout; tab root screens pass largeTitle on Screen (the piece sets headerLargeTitleEnabled)",
+        "Copies references/tokens.ts to src/theme/tokens.ts and reads colors through useTokens()",
+        "app.json has expo-localization with supportedLocales including 'ar', orientation 'default', ios.supportsTablet true, and an explicit web.output",
+        "Adds (tabs)/_layout.web.tsx with a shadcn Sidebar shell and <Slot />, built with saudi-soft rules",
+        "Routes live in src/app and only re-export screens from src/screens",
+        "Runs check-shared.js and tsc for the default, iOS, and web tsconfigs and reports the results"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Port this web page to the Expo app: a student dashboard built with shadcn Card, lucide icons (ArrowRight, CheckCircle2), sonner toast, useNavigate from react-router-dom, framer-motion fade-in and a recharts bar chart. Keep the existing useStudentDashboard hook.",
+      "expected_output": "One shared screen in src/screens built only from pieces, copying the golden screen structure; logic hook reused; navigation through expo-router; Toast piece; motion removed; Chart piece; icon names from icons.md with forward/back meaning decided.",
+      "files": [],
+      "expectations": [
+        "The screen file contains no DOM tags, className, lucide-react, sonner, react-router-dom or framer-motion imports",
+        "Uses Screen, Grid, KpiCard or Section, and Chart pieces instead of shadcn Card and recharts",
+        "Replaces useNavigate with useRouter / Link from expo-router",
+        "Replaces toast calls with useToast().show",
+        "Maps ArrowRight to arrow-forward or arrow-back after deciding its meaning, and CheckCircle2 to check-circle",
+        "Reuses the existing useStudentDashboard hook instead of copying data fetching into the screen",
+        "Follows the golden screen structure or asks for golden screen approval when none exists",
+        "check-shared.js passes on the new screen"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Add a quantity stepper (minus, number, plus) to the order form screen, native on iOS.",
+      "expected_output": "A new Stepper piece via the "Add a piece" workflow: contract first, default/iOS/web files, exported from the barrel. It does not import a Stepper component from @expo/ui, because @expo/ui/swift-ui does not list one; it composes existing verified components or pieces.",
+      "files": [],
+      "expectations": [
+        "Checks the catalog and the barrel before creating a new piece",
+        "Creates Stepper.types.ts before the platform files",
+        "Does not import a non-existent Stepper from @expo/ui/swift-ui or @expo/ui",
+        "Builds the iOS file from verified pieces or components (for example IconButton and Text) and marks unverified details with // verify at use",
+        "Writes Stepper.web.tsx with shadcn Button/InputGroup under saudi-soft rules",
+        "Exports the piece from src/pieces/index.ts and uses it in the screen without Platform.OS branches",
+        "Gives an Arabic accessibilityLabel to the minus and plus buttons"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Make the dashboard cards glassy like iOS 26 Liquid Glass, and give the tab bar our green background.",
+      "expected_output": "Explains that glass belongs to floating controls and that the system draws the tab bar; keeps cards solid with tokens; uses green as the tab tint; offers glass only for a floating control such as the Toast capsule or a bottom accessory.",
+      "files": [],
+      "expectations": [
+        "Does not wrap KpiCard, Card or list rows in GlassView",
+        "Does not set backgroundColor on NativeTabs; uses tintColor for the brand green",
+        "Explains that iOS 26+ ignores tab bar background props and that Xcode 27 builds cannot opt out of Liquid Glass",
+        "If glass is added anywhere, it is a floating control with isGlassEffectAPIAvailable and Reduce Transparency fallbacks",
+        "Keeps colors coming from tokens, not hex values in pieces"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Teachers need to read lesson PDFs inside the app on iPad, using Apple's PDFKit.",
+      "expected_output": "A local Expo module created with npx create-expo-module@latest --local: Swift Module with Name/View/Prop/Events, an ExpoView subclass hosting PDFView, three TS faces (ios native, web iframe, Android stub with an availability flag), a PdfViewer piece, rebuild with npx expo run:ios.",
+      "files": [],
+      "expectations": [
+        "Uses npx create-expo-module@latest --local and places the module under modules/",
+        "Swift view subclasses ExpoView with required init(appContext: AppContext? = nil) and hosts PDFView with autoScales",
+        "Module Name in Swift matches the string passed to requireNativeView from 'expo'",
+        "Ships a web fallback and an Android stub so no platform crashes",
+        "Downloads remote PDFs to a local file before handing them to PDFDocument(url:)",
+        "Wraps the module in a PdfViewer piece used by the screen; user-facing strings come from i18n in the piece",
+        "Rebuilds with npx expo run:ios and verifies on iPhone and iPad simulators"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "In Arabic the back chevrons on our list rows point the wrong way and some text is left-aligned. Fix it.",
+      "expected_output": "Uses chevron-forward / chevron-back shared names (SF .forward/.backward), Text piece alignment from I18nManager, logical props, supportedLocales and LocaleProvider checks, then the RTL checklist in the Arabic simulator.",
+      "files": [],
+      "expectations": [
+        "Replaces chevron.left/chevron.right or ChevronLeft/ChevronRight usage with the chevron-forward / chevron-back shared names",
+        "Fixes alignment inside the Text piece (align start/end converted with I18nManager.isRTL), not with textAlign in screens",
+        "Replaces marginLeft/paddingRight style props with logical props",
+        "Checks that 'ar' is in expo-localization supportedLocales and that LocaleProvider wraps the navigator",
+        "Verifies with an Arabic iOS Simulator launch and reports the RTL checklist lines it checked"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Build the gradebook: teachers edit grades for 30 students across 12 assessments. It must work on the web and on iPad; on iPhone, viewing is enough.",
+      "expected_output": "Applies the variant rule: a GradebookScreen.web.tsx dense shadcn Table and a regular-width variant chosen by useSizeClass, while iPhone gets list rows that open a student detail; one logic hook shared by all variants.",
+      "files": [],
+      "expectations": [
+        "Cites variant rule 1 (dense desktop table) in a comment at the top of the variant file",
+        "Keeps data loading and mutations in one logic hook used by every variant",
+        "Uses useSizeClass (window width) to choose the iPad layout, not Platform.isPad or device checks",
+        "iPhone layout uses List / ListItem rows that open a detail screen",
+        "Web variant uses shadcn Table under saudi-soft rules; shared files still pass check-shared.js"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "We are ready to start the Android version of the app.",
+      "expected_output": "Follows android-later.md: no screen rewrites; runs the default files on an Arabic emulator; Material 3 look without glass; upgrades RN fallbacks to Compose one piece at a time after verifying props; checks icon mirroring and back behavior.",
+      "files": [],
+      "expectations": [
+        "Does not rewrite or duplicate screens for Android",
+        "Puts Android-specific code in <Piece>.tsx when an .ios.tsx exists, or in <Piece>.android.tsx when the default also serves iOS",
+        "Runs npx expo run:android on an emulator set to Arabic and walks the RTL checklist lines 1-13",
+        "Keeps Android free of glass and uses Material tab bar props (indicatorColor, rippleColor) from tokens",
+        "Verifies @expo/ui/jetpack-compose props in node_modules before using them",
+        "Checks that mirrored icons are not double-flipped"
+      ]
+    }
+  ]
+}

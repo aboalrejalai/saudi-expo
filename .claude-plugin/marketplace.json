@@ -1,0 +1,19 @@
+{
+  "name": "saudi-expo",
+  "owner": {
+    "name": "aboalrejalai"
+  },
+  "metadata": {
+    "description": "Saudi Expo — Expo apps with the Saudi Soft identity: native iOS/iPad, shadcn on web, Android later, RTL",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "saudi-expo",
+      "description": "Saudi Expo — native-feeling iOS/iPad Expo apps with Saudi Soft identity, shadcn on web, Android later.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/saudi-expo"]
+    }
+  ]
+}
