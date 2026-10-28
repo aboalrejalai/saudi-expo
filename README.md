@@ -1,3 +1,5 @@
+<p align="center"><img src=".github/assets/cover.png" alt="saudi-expo" width="100%"></p>
+
 # Saudi Expo
 
 Agent skill for building Expo / React Native apps under the Saudi Soft identity: native-feeling iPhone and iPad apps, Saudi Soft shadcn/ui on the web, Android later without rewriting screens.
